@@ -107,12 +107,13 @@ function SeedPacketArt() {
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: { q?: Param; category?: Param };
+  searchParams: Promise<{ q?: Param; category?: Param }>;
 }) {
   const all = await getProducts();
 
-  const q = first(searchParams.q).trim();
-  const category = first(searchParams.category).trim();
+  const sp = await searchParams;
+  const q = first(sp.q).trim();
+  const category = first(sp.category).trim();
   const filtering = Boolean(q || category);
 
   const categories = Array.from(
